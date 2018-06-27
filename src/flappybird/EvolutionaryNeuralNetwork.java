@@ -44,7 +44,7 @@ public class EvolutionaryNeuralNetwork {
             for (int j = 0; j < previousLayer.size(); j++) {
 
                 //setting hidden layer weight
-                currentLayer.get(i).getInCommingWeights().add(Mathematics.getRandom(-1.0, 1.0));
+                currentLayer.get(i).getInCommingWeights().add(Mathematics.getRandom(-1.0, 0.5));
             }
         }
     }

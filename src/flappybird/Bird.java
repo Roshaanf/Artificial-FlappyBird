@@ -37,12 +37,12 @@ public class Bird {
         //setting hidden layer
         network.getHiddenLayer().add(new Node());
         network.getHiddenLayer().add(new Node());
-        network.getHiddenLayer().get(0).setBias(Mathematics.getRandom(-1.0, 1.0));
-        network.getHiddenLayer().get(1).setBias(Mathematics.getRandom(-1.0, 1.0));
+        network.getHiddenLayer().get(0).setBias(Mathematics.getRandom(-1.0, 0.5));
+        network.getHiddenLayer().get(1).setBias(Mathematics.getRandom(-1.0, 0.5));
 
         //setting output  layer
         network.getOutputLayer().add(new Node());
-        network.getOutputLayer().get(0).setBias(Mathematics.getRandom(-1.0, 1.0));
+        network.getOutputLayer().get(0).setBias(Mathematics.getRandom(-1.0, 0.5));
 
         //initializing hidden layer nodes weights
         network.initializeNodesWeights(network.getInputLayer(), network.getHiddenLayer());
@@ -100,7 +100,7 @@ public class Bird {
 
 
 //        if output> 0.5 jump otherwise not
-        if (networkOutput > 0.9) {
+        if (networkOutput > 0.5) {
 
 //            jump
             yMotion = 0;

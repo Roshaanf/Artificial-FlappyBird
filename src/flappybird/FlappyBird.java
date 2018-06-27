@@ -28,8 +28,8 @@ public class FlappyBird implements ActionListener, MouseListener {
 
     public static FlappyBird flappyBird;
 
-    public static final int N = 25;
-    public static final int M = 6;
+    public static final int N = 200;
+    public static final int M = 100;
 
     public static int GENERATION = 0;
 
@@ -158,8 +158,7 @@ public class FlappyBird implements ActionListener, MouseListener {
 
         if (!isStarted) {
             graphics.drawString("Click to start!", 75, HEIGHT / 2 - 50);
-        } 
-        else {
+        } else {
             graphics.drawString(String.valueOf(GENERATION), WIDTH / 2 - 25, 100);
         }
     }
@@ -181,9 +180,9 @@ public class FlappyBird implements ActionListener, MouseListener {
                 if (birds.get(i).isAlive) {
 //                        this method will decide if jump is needed
                     birds.get(i).jump(pipes);
-                    
+
 //                    setting fitness
-                      birds.get(i).setFitness(ticks);
+                    birds.get(i).setFitness(ticks);
                 }
             }
 
@@ -244,6 +243,10 @@ public class FlappyBird implements ActionListener, MouseListener {
 //                            gameOver = true;
                             birds.get(i).setIsAlive(false);
                             deadBirdsCount++;
+
+//                            setting bird to bottom of the screen
+                            birds.get(i).getRectangle().y = HEIGHT - 120 - birds.get(i).getRectangle().height;
+
                         }
 
 //                        checking collision
@@ -263,7 +266,7 @@ public class FlappyBird implements ActionListener, MouseListener {
                 isStarted = false;
 
 //                start next generation
-                  performEvolution();
+                performEvolution();
             }
         }
 
@@ -332,10 +335,26 @@ public class FlappyBird implements ActionListener, MouseListener {
         // TODO code application logic here
 
         Color colors[] = {Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY,
-        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY,
-        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED};
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
         birds = new ArrayList<>();
 
         //initializing population
@@ -373,12 +392,12 @@ public class FlappyBird implements ActionListener, MouseListener {
         for (int i = 0; i < M; i = i + 2) {
 
             //STEP #2.1 different parents
-               Bird [] birdsArray = birds.toArray(new Bird[birds.size()]);
-               
+            Bird[] birdsArray = birds.toArray(new Bird[birds.size()]);
+
 //            List<Bird> parent = EvolutionaryAlgorithm.rankBased(birdsArray, 2);
             List<Bird> parent = Arrays.asList(EvolutionaryAlgorithm.rankBased(birds.toArray(new Bird[birds.size()]), 2));
-              System.out.println("parentttttttttttttt 1 "+ parent.get(0).toString());
-              System.out.println("parentttttttttttttt 2 "+ parent.get(1).toString());
+            System.out.println("parentttttttttttttt 1 " + parent.get(0).toString());
+            System.out.println("parentttttttttttttt 2 " + parent.get(1).toString());
             //STEP #2.2 apply crossovers and produce 2 children
             Bird child1 = new Bird();
             Bird child2 = new Bird();
@@ -393,7 +412,6 @@ public class FlappyBird implements ActionListener, MouseListener {
             child1.setColor(parent.get(1).getColor());
             child2.setColor(parent.get(0).getColor());
 
-            
 //            adding children
             children.add(child1);
             children.add(child2);
@@ -405,12 +423,11 @@ public class FlappyBird implements ActionListener, MouseListener {
 //                   System.out.println("afer "+children.get(children.size()-2).toString());
 
             //STEP # 2.4 SETTING FITNESS AS AVERAGE OF TWO PARENTS
-            children.get(children.size() - 2).setFitness(((parent.get(0).getFitness()+parent.get(1).getFitness())/2)-6 +new Random().nextInt(20));
-            children.get(children.size() - 1).setFitness(((parent.get(0).getFitness()+parent.get(1).getFitness())/2)-6 +new Random().nextInt(20));
+            children.get(children.size() - 2).setFitness(((parent.get(0).getFitness() + parent.get(1).getFitness()) / 2) - 6 + new Random().nextInt(20));
+            children.get(children.size() - 1).setFitness(((parent.get(0).getFitness() + parent.get(1).getFitness()) / 2) - 6 + new Random().nextInt(20));
 
 //            System.out.println("CHILLDDDDDDDD 1 "+ child1.toString());
 //            System.out.println("CHILDDDDDDDDD 2 "+child2.toString());
-            
         }
 
         //STEP # 3 FROM m+n individuals select n fittest individuals
@@ -420,9 +437,9 @@ public class FlappyBird implements ActionListener, MouseListener {
 
         System.out.println("GENERATION " + GENERATION + " Best Fitness " + birds.get(0).getFitness());
 
-        for(int i=0;i<birds.size();i++){
+        for (int i = 0; i < birds.size(); i++) {
             System.out.println(birds.get(i).toString());
-            System.out.println("Fitness "+birds.get(i).getFitness());
+            System.out.println("Fitness " + birds.get(i).getFitness());
         }
         //    start game again
         resetGame();
@@ -435,21 +452,19 @@ public class FlappyBird implements ActionListener, MouseListener {
         // setting all birds in the center of the screen x,y,width,height
         for (Bird bird : birds) {
             bird.setRectangle(new Rectangle(WIDTH / 2, HEIGHT / 2, 20, 20));
-            
+
 //            setting y motion to 0
-               bird.setyMotion(0);
-               bird.setIsAlive(true);
-               bird.setFitness(0);
+            bird.setyMotion(0);
+            bird.setIsAlive(true);
+            bird.setFitness(0);
         }
-            
-        deadBirdsCount=0;
-        ticks=0;
-        
+
+        deadBirdsCount = 0;
+        ticks = 0;
+
         pipes = new ArrayList<>();
 
         rand = new Random();
-        
-        
 
         addPipe(true);
         addPipe(true);
