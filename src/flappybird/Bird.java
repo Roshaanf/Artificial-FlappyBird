@@ -100,7 +100,7 @@ public class Bird {
 
 
 //        if output> 0.5 jump otherwise not
-        if (networkOutput > 0.5) {
+        if (networkOutput > 0.6) {
 
 //            jump
             yMotion = 0;

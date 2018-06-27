@@ -28,13 +28,15 @@ public class FlappyBird implements ActionListener, MouseListener {
 
     public static FlappyBird flappyBird;
 
-    public static final int N = 200;
-    public static final int M = 100;
+    public static final int N = 300;
+    public static final int M = 160;
 
     public static int GENERATION = 0;
 
     public final int WIDTH = 700, HEIGHT = 700;
     int score;
+
+    boolean isScoreCounted;
 
     int deadBirdsCount;
 
@@ -161,6 +163,27 @@ public class FlappyBird implements ActionListener, MouseListener {
         } else {
             graphics.drawString(String.valueOf(GENERATION), WIDTH / 2 - 25, 100);
         }
+
+//        setting birds alive text
+        graphics.setColor(Color.YELLOW);
+        graphics.setFont(new Font("Arial", 1, 30));
+        graphics.drawString("Birds Alive", 50, 50);
+
+//        setting birds alive count
+        graphics.setColor(Color.WHITE);
+        graphics.setFont(new Font("Arial", 1, 30));
+        graphics.drawString(String.valueOf(N - deadBirdsCount), 90, 90);
+        
+//        showing score text
+        graphics.setColor(Color.YELLOW);
+        graphics.setFont(new Font("Arial", 1, 30));
+        graphics.drawString("Score", 550, 50);
+        
+        //        showing score 
+        graphics.setColor(Color.WHITE);
+        graphics.setFont(new Font("Arial", 1, 30));
+        graphics.drawString(String.valueOf(score), 575, 90);
+
     }
 
     @Override
@@ -232,10 +255,10 @@ public class FlappyBird implements ActionListener, MouseListener {
 
                     if (birds.get(i).isAlive) {
 //                calculating score checking for y=0 so only one time score is count not for two times for upper and lower pipes
-                        if (pipe.y == 0 && pipe.x + pipe.width == birds.get(i).getRectangle().x) {
+                        if (!isScoreCounted && (pipe.y == 0 && pipe.x + pipe.width == birds.get(i).getRectangle().x)) {
                             score++;
-//                    timer.stop();
-                            System.out.println(pipe);
+                            isScoreCounted = true;
+
                         }
 
 //                        checking collision
@@ -258,6 +281,8 @@ public class FlappyBird implements ActionListener, MouseListener {
                     }
                 }
             }
+
+            isScoreCounted = false;
 
 //            if (bird.y > HEIGHT - 120 || bird.y <= 0) {
 //                gameOver = true;
@@ -354,7 +379,17 @@ public class FlappyBird implements ActionListener, MouseListener {
             Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
             Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
             Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
+            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
         birds = new ArrayList<>();
 
         //initializing population
@@ -461,6 +496,7 @@ public class FlappyBird implements ActionListener, MouseListener {
 
         deadBirdsCount = 0;
         ticks = 0;
+        score=0;
 
         pipes = new ArrayList<>();
 
