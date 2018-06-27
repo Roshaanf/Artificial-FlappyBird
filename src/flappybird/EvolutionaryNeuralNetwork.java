@@ -270,8 +270,8 @@ public class EvolutionaryNeuralNetwork {
 
     public String toString() {
 
-        return "input1 " + inputLayer.get(0).getInCommingWeights().get(0) + " \n"+
-                 "input2 " + inputLayer.get(1).getInCommingWeights().get(0) + " \n"+
+        return /*"input1 " + inputLayer.get(0).getInCommingWeights().get(0) + " \n"+
+                 "input2 " + inputLayer.get(1).getInCommingWeights().get(0) + " \n"+*/
                 "w14 " + hiddenLayer.get(0).getInCommingWeights().get(0) + " \n"
                 + "w24 " + hiddenLayer.get(0).getInCommingWeights().get(1) + " \n"
                 + "w15 " + hiddenLayer.get(1).getInCommingWeights().get(0) + " \n"
@@ -371,6 +371,20 @@ class Mathematics {
         return random;
     }
 
+     public static void sort(Bird[] array) {
+        int n = array.length;
+        for (int j = 1; j < n; j++) {
+            Bird key = array[j];
+            int i = j - 1;
+            while ((i > -1) && (array[i].getFitness() > key.getFitness())) {
+                array[i + 1] = array[i];
+                i--;
+            }
+            array[i + 1] = key;
+        }
+
+    }
+     
     //get double random number between 0.0(inclusive) and 1.0 (exclusive)
     public static double getRandom() {
 

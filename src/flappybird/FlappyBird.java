@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -27,8 +28,8 @@ public class FlappyBird implements ActionListener, MouseListener {
 
     public static FlappyBird flappyBird;
 
-    public static final int N = 14;
-    public static final int M = 4;
+    public static final int N = 25;
+    public static final int M = 6;
 
     public static int GENERATION = 0;
 
@@ -37,7 +38,7 @@ public class FlappyBird implements ActionListener, MouseListener {
 
     int deadBirdsCount;
 
-    public final int TIMER_DELAY_IN_MILI_S = 20;
+    public final int TIMER_DELAY_IN_MILI_S = 40;
     public final int PIPE_SPEED = 10;
 
     Random rand;
@@ -331,7 +332,10 @@ public class FlappyBird implements ActionListener, MouseListener {
         // TODO code application logic here
 
         Color colors[] = {Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY};
+        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY,
+        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY,
+        Color.BLUE.darker(),Color.MAGENTA.darker().darker(),Color.ORANGE.darker().darker(),Color.GRAY,
+        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED};
         birds = new ArrayList<>();
 
         //initializing population
@@ -369,8 +373,12 @@ public class FlappyBird implements ActionListener, MouseListener {
         for (int i = 0; i < M; i = i + 2) {
 
             //STEP #2.1 different parents
-            List<Bird> parent = EvolutionaryAlgorithm.randomSelection(birds, 2);
-
+               Bird [] birdsArray = birds.toArray(new Bird[birds.size()]);
+               
+//            List<Bird> parent = EvolutionaryAlgorithm.rankBased(birdsArray, 2);
+            List<Bird> parent = Arrays.asList(EvolutionaryAlgorithm.rankBased(birds.toArray(new Bird[birds.size()]), 2));
+              System.out.println("parentttttttttttttt 1 "+ parent.get(0).toString());
+              System.out.println("parentttttttttttttt 2 "+ parent.get(1).toString());
             //STEP #2.2 apply crossovers and produce 2 children
             Bird child1 = new Bird();
             Bird child2 = new Bird();
@@ -385,6 +393,7 @@ public class FlappyBird implements ActionListener, MouseListener {
             child1.setColor(parent.get(1).getColor());
             child2.setColor(parent.get(0).getColor());
 
+            
 //            adding children
             children.add(child1);
             children.add(child2);
@@ -395,10 +404,13 @@ public class FlappyBird implements ActionListener, MouseListener {
             children.get(children.size() - 1).getNetwork().mutate();
 //                   System.out.println("afer "+children.get(children.size()-2).toString());
 
-            //STEP # 2.4 SETTING FITNESS TO 0
-            children.get(children.size() - 2).setFitness(0);
-            children.get(children.size() - 1).setFitness(0);
+            //STEP # 2.4 SETTING FITNESS AS AVERAGE OF TWO PARENTS
+            children.get(children.size() - 2).setFitness(((parent.get(0).getFitness()+parent.get(1).getFitness())/2)-6 +new Random().nextInt(20));
+            children.get(children.size() - 1).setFitness(((parent.get(0).getFitness()+parent.get(1).getFitness())/2)-6 +new Random().nextInt(20));
 
+//            System.out.println("CHILLDDDDDDDD 1 "+ child1.toString());
+//            System.out.println("CHILDDDDDDDDD 2 "+child2.toString());
+            
         }
 
         //STEP # 3 FROM m+n individuals select n fittest individuals
@@ -409,7 +421,7 @@ public class FlappyBird implements ActionListener, MouseListener {
         System.out.println("GENERATION " + GENERATION + " Best Fitness " + birds.get(0).getFitness());
 
         for(int i=0;i<birds.size();i++){
-            System.out.println(birds.get(i).getNetwork().toString());
+            System.out.println(birds.get(i).toString());
             System.out.println("Fitness "+birds.get(i).getFitness());
         }
         //    start game again
