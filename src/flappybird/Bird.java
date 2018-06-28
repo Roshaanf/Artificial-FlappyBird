@@ -6,6 +6,7 @@
 package flappybird;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,11 @@ public class Bird {
 
     EvolutionaryNeuralNetwork network;
     Rectangle rectangle;
-    Color color;
+    String image;
     boolean isAlive;
     int yMotion;
     int fitness;
-    
+
     int rank;
     double proportion;
     double commulative;
@@ -94,13 +95,11 @@ public class Bird {
 //        minimum y position for the lower pipe will be 330 so normalizing vertical input value for ANN
         verticalDistance = verticalDistance / 700;
 
-     
 //        now feed forward neural netwokr with inputs, and return output
         double networkOutput = network.feedForward(horizontalDistance, verticalDistance);
 
-
 //        if output> 0.5 jump otherwise not
-        if (networkOutput > 0.6) {
+        if (networkOutput > 0.5) {
 
 //            jump
             yMotion = 0;
@@ -108,8 +107,7 @@ public class Bird {
         }
 
     }
-    
-    
+
     public static List<Bird> sortFitness(List<Bird> array) {
         int n = array.size();
         for (int j = 1; j < n; j++) {
@@ -141,13 +139,7 @@ public class Bird {
         this.rectangle = rectangle;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
+ 
 
     public boolean isIsAlive() {
         return isAlive;
@@ -199,13 +191,19 @@ public class Bird {
 
     @Override
     public String toString() {
-        return "Bird{\n" + "network=" + network + "\n  , rank=" + rank +  "\n Fitness "+fitness+'}';
+        return "Bird{\n" + "network=" + network + "\n  , rank=" + rank + "\n Fitness " + fitness + '}';
     }
-    
-    
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    
 }
-
 
 class EvolutionaryAlgorithm {
 
@@ -215,19 +213,19 @@ class EvolutionaryAlgorithm {
 
         //reverse sorting population on the basis of fitness
         Bird.sortFitness(population);
-        
+
         return new ArrayList<Bird>(population.subList(0, noOfIndividualsRequired));
     }
 
     //only for parent selection
     //it will return new array index 0  will contain 1st parent and 1 will contain 2nd parent
     public static List<Bird> randomSelection(List<Bird> population, int noOfRequiredIndividuals) {
-        
+
         List<Bird> parents = new ArrayList<>();
-        
+
         int random1;
         int random2;
-        
+
         while (parents.size() < noOfRequiredIndividuals) {
             random1 = Mathematics.getRandom(0, population.size() - 1);
             random2 = Mathematics.getRandom(0, population.size() - 1);
@@ -244,9 +242,8 @@ class EvolutionaryAlgorithm {
         }
         return parents;
     }
-    
-    
-        public static Bird[] rankBased(Bird[] population, int noOfRequiredIndividuals) {
+
+    public static Bird[] rankBased(Bird[] population, int noOfRequiredIndividuals) {
 
         ArrayList<Bird> newRequiredPopulation = new ArrayList<>();
         int i, ranksTotal = 0;
@@ -317,8 +314,4 @@ class EvolutionaryAlgorithm {
         return newRequiredPopulation.toArray(new Bird[newRequiredPopulation.size()]);
     }
 
-    
-    
-    
 }
-

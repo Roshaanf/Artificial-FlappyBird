@@ -8,23 +8,28 @@ package flappybird;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 /**
  *
  * @author Roshaann 2.7 gpa
  */
-public class FlappyBird implements ActionListener, MouseListener {
+public class FlappyBird implements ActionListener {
 
     public static FlappyBird flappyBird;
 
@@ -71,7 +76,6 @@ public class FlappyBird implements ActionListener, MouseListener {
 //        setting JFrame attributes
         frame.setSize(WIDTH, HEIGHT);
         frame.setResizable(false);
-        frame.addMouseListener(this);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Flappy Bird");
         frame.setVisible(true);
@@ -144,9 +148,12 @@ public class FlappyBird implements ActionListener, MouseListener {
 
 //        setting birds color
         for (int i = 0; i < N; i++) {
-            graphics.setColor(birds.get(i).getColor());
-            graphics.fillRect(birds.get(i).getRectangle().x, birds.get(i).getRectangle().y,
-                    birds.get(i).getRectangle().width, birds.get(i).getRectangle().height);
+//            graphics.setColor(birds.get(i).getColor());
+//            graphics.fillRect(birds.get(i).getRectangle().x, birds.get(i).getRectangle().y,
+//                    birds.get(i).getRectangle().width, birds.get(i).getRectangle().height);
+
+            Image img = Toolkit.getDefaultToolkit().getImage(birds.get(i).getImage());
+            graphics.drawImage(img, birds.get(i).getRectangle().x, birds.get(i).getRectangle().y, null);
         }
 
 //        painting pipes
@@ -173,12 +180,12 @@ public class FlappyBird implements ActionListener, MouseListener {
         graphics.setColor(Color.WHITE);
         graphics.setFont(new Font("Arial", 1, 30));
         graphics.drawString(String.valueOf(N - deadBirdsCount), 90, 90);
-        
+
 //        showing score text
         graphics.setColor(Color.YELLOW);
         graphics.setFont(new Font("Arial", 1, 30));
         graphics.drawString("Score", 550, 50);
-        
+
         //        showing score 
         graphics.setColor(Color.WHITE);
         graphics.setFont(new Font("Arial", 1, 30));
@@ -268,7 +275,7 @@ public class FlappyBird implements ActionListener, MouseListener {
                             deadBirdsCount++;
 
 //                            setting bird to bottom of the screen
-                            birds.get(i).getRectangle().y = HEIGHT - 120 - birds.get(i).getRectangle().height;
+                            birds.get(i).getRectangle().y = HEIGHT;
 
                         }
 
@@ -277,6 +284,10 @@ public class FlappyBird implements ActionListener, MouseListener {
 //                            gameOver = true;
                             birds.get(i).setIsAlive(false);
                             deadBirdsCount++;
+
+//                           setting bird to bottom of the screen
+                            birds.get(i).getRectangle().y = HEIGHT  ;
+
                         }
                     }
                 }
@@ -284,9 +295,10 @@ public class FlappyBird implements ActionListener, MouseListener {
 
             isScoreCounted = false;
 
-//            if (bird.y > HEIGHT - 120 || bird.y <= 0) {
-//                gameOver = true;
-//            }
+//               calling repaing of renderer will call paint component in Renderer which eventually will call repaint of Flappy bird(this class)
+            renderer.repaint();
+
+            
             if (deadBirdsCount == N) {
                 isStarted = false;
 
@@ -295,62 +307,6 @@ public class FlappyBird implements ActionListener, MouseListener {
             }
         }
 
-//      calling repaing of renderer will call paint component in Renderer which eventually will call repaint of Flappy bird(this class)
-        renderer.repaint();
-
-    }
-
-    public void jump() {
-
-        if (!isStarted) {
-            isStarted = true;
-        } else if (gameOver) {
-//            resetting eveything
-
-//        creating bird in the center of the screen x,y,width,height
-            bird = new Rectangle(WIDTH / 2, HEIGHT / 2, 20, 20);
-            pipes = new ArrayList<>();
-
-            yMotion = 0;
-            score = 0;
-            rand = new Random();
-
-            addPipe(true);
-            addPipe(true);
-            addPipe(true);
-            addPipe(true);
-
-            gameOver = false;
-
-        } //        jump
-        else {
-
-            yMotion = 0;
-            yMotion -= 10;
-        }
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-        jump();
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 
     /**
@@ -359,39 +315,13 @@ public class FlappyBird implements ActionListener, MouseListener {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        Color colors[] = {Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-            Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,
-        Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
+        Color colors[] = {Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
+        String[] images = {"flappy-bird.png", "flappy-bird -brown.png", "flappy-bird -green.png", "flappy-bird -pink.png", "flappy-bird -red.png"};
+
         birds = new ArrayList<>();
 
+//        for images
+        int j = 0;
         //initializing population
         for (int i = 0; i < N; i++) {
 
@@ -400,7 +330,8 @@ public class FlappyBird implements ActionListener, MouseListener {
 //            creating network
             bird.setNetwork(new EvolutionaryNeuralNetwork());
 //            setting bird color
-            bird.setColor(colors[i]);
+//            bird.setColor(colors[i]);
+            bird.setImage(images[j]);
 
             bird.setIsAlive(true);
 
@@ -411,6 +342,10 @@ public class FlappyBird implements ActionListener, MouseListener {
             //setting initial fitness to 0
             bird.setFitness(0);
 
+            j++;
+            if (j == 5) {
+                j = 0;
+            }
         }
 
 //      starting game
@@ -444,8 +379,8 @@ public class FlappyBird implements ActionListener, MouseListener {
             child1.getNetwork().crossOver(parent, true);
             child2.getNetwork().crossOver(parent, false);
 
-            child1.setColor(parent.get(1).getColor());
-            child2.setColor(parent.get(0).getColor());
+            child1.setImage(parent.get(1).getImage());
+            child2.setImage(parent.get(0).getImage());
 
 //            adding children
             children.add(child1);
@@ -496,7 +431,7 @@ public class FlappyBird implements ActionListener, MouseListener {
 
         deadBirdsCount = 0;
         ticks = 0;
-        score=0;
+        score = 0;
 
         pipes = new ArrayList<>();
 
