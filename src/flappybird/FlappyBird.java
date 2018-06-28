@@ -16,14 +16,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 
 /**
  *
@@ -45,7 +52,7 @@ public class FlappyBird implements ActionListener {
 
     int deadBirdsCount;
 
-    public final int TIMER_DELAY_IN_MILI_S = 40;
+    public final int TIMER_DELAY_IN_MILI_S = 20;
     public final int PIPE_SPEED = 10;
 
     Random rand;
@@ -138,13 +145,16 @@ public class FlappyBird implements ActionListener {
         graphics.setColor(Color.cyan);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
-//        setting ground color
-        graphics.setColor(Color.ORANGE);
-        graphics.fillRect(0, HEIGHT - 120, WIDTH, 120);
+////        setting ground color
+//        graphics.setColor(Color.ORANGE);
+//        graphics.fillRect(0, HEIGHT - 120, WIDTH, 120);
+//
+////        setting grass on ground
+//        graphics.setColor(Color.GREEN);
+//        graphics.fillRect(0, HEIGHT - 120, WIDTH, 20);
 
-//        setting grass on ground
-        graphics.setColor(Color.GREEN);
-        graphics.fillRect(0, HEIGHT - 120, WIDTH, 20);
+        Image ground = Toolkit.getDefaultToolkit().getImage("ground.png");
+        graphics.drawImage(ground,0 , HEIGHT-120, null);
 
 //        setting birds color
         for (int i = 0; i < N; i++) {
@@ -153,7 +163,7 @@ public class FlappyBird implements ActionListener {
 //                    birds.get(i).getRectangle().width, birds.get(i).getRectangle().height);
 
             Image img = Toolkit.getDefaultToolkit().getImage(birds.get(i).getImage());
-            graphics.drawImage(img, birds.get(i).getRectangle().x, birds.get(i).getRectangle().y, null);
+            graphics.drawImage(img, (birds.get(i).getRectangle().x) - 9, birds.get(i).getRectangle().y - 2, null);
         }
 
 //        painting pipes
@@ -308,12 +318,38 @@ public class FlappyBird implements ActionListener {
         }
 
     }
+ public static void playMusicInBackground() {
+
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+
+        executorService.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+
+                try {
+                    FileInputStream fileInputStream = new FileInputStream("music.mp3");
+                    Player player = new Player(fileInputStream);
+                    player.play();
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (JavaLayerException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            }
+        }, 0, 141, TimeUnit.SECONDS);
+
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+
+        playMusicInBackground();
 
         Color colors[] = {Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
         String[] images = {"flappy-bird.png", "flappy-bird -brown.png", "flappy-bird -green.png", "flappy-bird -pink.png", "flappy-bird -red.png"};
