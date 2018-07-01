@@ -153,7 +153,7 @@ public class FlappyBird implements ActionListener {
 //        graphics.setColor(Color.GREEN);
 //        graphics.fillRect(0, HEIGHT - 120, WIDTH, 20);
 
-        Image ground = Toolkit.getDefaultToolkit().getImage("ground.png");
+        Image ground = Toolkit.getDefaultToolkit().getImage("assets/ground.png");
         graphics.drawImage(ground,0 , HEIGHT-120, null);
 
 //        setting birds color
@@ -352,7 +352,7 @@ public class FlappyBird implements ActionListener {
         playMusicInBackground();
 
         Color colors[] = {Color.GRAY, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.ORANGE, Color.black, Color.PINK, Color.darkGray, Color.LIGHT_GRAY,};
-        String[] images = {"flappy-bird.png", "flappy-bird -brown.png", "flappy-bird -green.png", "flappy-bird -pink.png", "flappy-bird -red.png"};
+        String[] images = {"assets/flappy-bird.png", "assets/flappy-bird -brown.png", "assets/flappy-bird -green.png", "assets/flappy-bird -pink.png", "assets/flappy-bird -red.png"};
 
         birds = new ArrayList<>();
 
