@@ -145,13 +145,6 @@ public class FlappyBird implements ActionListener {
         graphics.setColor(Color.cyan);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
-////        setting ground color
-//        graphics.setColor(Color.ORANGE);
-//        graphics.fillRect(0, HEIGHT - 120, WIDTH, 120);
-//
-////        setting grass on ground
-//        graphics.setColor(Color.GREEN);
-//        graphics.fillRect(0, HEIGHT - 120, WIDTH, 20);
 
         Image ground = Toolkit.getDefaultToolkit().getImage("assets/ground.png");
         graphics.drawImage(ground,0 , HEIGHT-120, null);
