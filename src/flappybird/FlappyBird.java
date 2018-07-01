@@ -68,7 +68,7 @@ public class FlappyBird implements ActionListener {
 
     Timer timer;
 
-    boolean gameOver, isStarted;
+    boolean  isStarted;
 
     FlappyBird() {
 
